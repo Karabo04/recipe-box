@@ -14,7 +14,16 @@ from .models import *
 
 
 def recipe_list(request):
+    query=request.GET.get('q')
     recipes=Recipe.objects.all()
+
+    if query:
+        recipes= recipes.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(ingredients__icontains=query) |
+            Q(category__icontains=query)
+        )
 
     return render(request, 'recipes/recipes.html', {'recipes': recipes })
 

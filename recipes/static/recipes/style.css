@@ -35,6 +35,17 @@ main { width: min(1100px, calc(100% - 48px)); margin: 0 auto; }
 .intro-copy { margin: 20px 0 25px; color: var(--muted); font-size: 14px; line-height: 1.7; }
 .intro-rule { display: flex; align-items: center; justify-content: center; gap: 12px; color: #be7952; font-size: 14px; }
 .intro-rule::before, .intro-rule::after { width: 48px; height: 1px; background: #d9cbbd; content: ''; }
+.search-section { width: min(650px, 100%); margin: 0 auto 18px; }
+.search-form { display: flex; align-items: center; gap: 10px; padding: 7px; border: 1px solid var(--line); border-radius: 5px; background: var(--white); box-shadow: 0 8px 24px #34452b0a; }
+.search-form:focus-within { border-color: #8a9b80; box-shadow: 0 0 0 3px #49664e18; }
+.search-form input { min-width: 0; flex: 1; padding: 11px 13px; border: 0; outline: 0; background: transparent; color: var(--ink); font: 400 13px var(--sans); }
+.search-form input::placeholder { color: var(--muted); opacity: .85; }
+.search-form button, .search-form .clear-btn { display: inline-flex; min-height: 39px; align-items: center; justify-content: center; padding: 0 17px; border: 0; border-radius: 3px; font: 600 11px var(--sans); cursor: pointer; transition: background .2s ease, color .2s ease; }
+.search-form button { background: var(--green-dark); color: #fffefa; }
+.search-form button:hover { background: var(--green); }
+.search-form .clear-btn { color: var(--muted); }
+.search-form .clear-btn:hover { background: var(--paper); color: var(--ink); }
+.search-form button:focus-visible, .search-form .clear-btn:focus-visible { outline: 2px solid #a36542; outline-offset: 2px; }
 .recipe-section { padding: 21px 0 86px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: 24px; }
 .section-heading .eyebrow { margin-bottom: 7px; }
@@ -98,6 +109,7 @@ html[data-theme="dark"] .intro-rule::before, html[data-theme="dark"] .intro-rule
     .header-note { display: none; }
     .header-actions { gap: 0; }
     .intro { padding: 62px 0 39px; }
+    .search-section { margin-bottom: 8px; }
     .recipe-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     .card-image-wrap { height: 190px; }
     .detail-columns { gap: 28px; }
@@ -110,6 +122,9 @@ html[data-theme="dark"] .intro-rule::before, html[data-theme="dark"] .intro-rule
     .section-heading { align-items: start; gap: 12px; }
     .section-heading h2 { max-width: 220px; font-size: 23px; }
     .recipe-count { white-space: nowrap; }
+    .search-form { gap: 3px; padding: 5px; }
+    .search-form input { padding: 10px 8px; font-size: 12px; }
+    .search-form button, .search-form .clear-btn { min-height: 37px; padding: 0 10px; }
     .recipe-grid { grid-template-columns: 1fr; gap: 16px; }
     .card-image-wrap { height: 225px; }
     .card-description { min-height: 0; }

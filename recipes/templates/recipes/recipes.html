@@ -26,6 +26,14 @@
             <div class="intro-rule"><span>✳</span></div>
         </section>
 
+        <section class="search-section">
+            <form method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search recipes... e.g. pap, chicken, dessert" value="{{ request.GET.q }}">
+                <button type="submit">Search</button>
+                <a href="{% url 'recipe_list' %}" class="clear-btn">Clear</a>
+            </form>
+        </section>
+
         <section class="recipe-section" aria-label="All recipes">
             <div class="section-heading">
                 <div><p class="eyebrow">FROM OUR KITCHEN</p><h2>Find your next favourite</h2></div>
