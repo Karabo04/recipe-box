@@ -15,7 +15,19 @@
 <body>
     <header class="site-header">
         <a class="wordmark" href="{% url 'recipe_list' %}"><span class="wordmark-icon">✳</span> the good table</a>
-        <div class="header-actions"><span class="header-note">A little inspiration for what’s cooking</span><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
+        <div class="header-actions">
+            <span class="header-note">A little inspiration for what’s cooking</span>
+            {% if request.user.is_authenticated %}
+            <span>Hello, {{ request.user }}</span>
+            <a href="{% url 'create_recipe' %}" class="btn">+ Add Recipe</a>
+            <a href="{% url 'logout' %}" class="btn">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn">Login</a>
+                <a href="{% url 'register' %}" class="btn">Register</a>
+            {% endif %}
+
+            
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
     </header>
 
     <main>

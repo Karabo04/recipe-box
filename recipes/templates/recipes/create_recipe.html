@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f5ef">
+    <script>try { document.documentElement.dataset.theme = localStorage.getItem('recipe-theme') || 'light'; } catch (error) { document.documentElement.dataset.theme = 'light'; }</script>
+    <title>Add a recipe · The Good Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="wordmark" href="{% url 'recipe_list' %}"><span class="wordmark-icon">✳</span> the good table</a>
+        <div class="header-actions"><a class="back-link" href="{% url 'recipe_list' %}">← &nbsp; All recipes</a><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
+    </header>
+    <main class="create-main">
+        <div class="create-heading">
+            <p class="eyebrow">FROM YOUR KITCHEN</p>
+            <h1>Pass a recipe along.</h1>
+            <p>Add the details below and share something delicious with the table.</p>
+        </div>
+        <section class="create-card">
+            <form method="POST" enctype="multipart/form-data" class="recipe-form">
+                {% csrf_token %}
+                {% if form.errors %}<div class="form-errors" role="alert"><strong>A few details need your attention.</strong>{{ form.non_field_errors }}</div>{% endif %}
+                {{ form.as_p }}
+                <div class="form-actions">
+                    <a class="form-cancel" href="{% url 'recipe_list' %}">Cancel</a>
+                    <button type="submit" class="form-submit">Save recipe <span aria-hidden="true">→</span></button>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <script src="{% static 'recipes/theme.js' %}" defer></script>
+</body>
+</html>

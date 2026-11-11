@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f5ef">
+    <script>try { document.documentElement.dataset.theme = localStorage.getItem('recipe-theme') || 'light'; } catch (error) { document.documentElement.dataset.theme = 'light'; }</script>
+    <title>Log in · The Good Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="wordmark" href="{% url 'recipe_list' %}"><span class="wordmark-icon">✳</span> the good table</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button>
+    </header>
+    <main class="auth-main">
+        <section class="auth-card">
+            <div class="auth-mark" aria-hidden="true">✳</div>
+            <p class="eyebrow">WELCOME BACK</p>
+            <h1>Come on in.</h1>
+            <p class="auth-intro">Log in to share and save recipes from your kitchen.</p>
+            <form method="POST" class="account-form">
+                {% csrf_token %}
+                <label for="login-username">Username</label>
+                <input id="login-username" type="text" name="username" placeholder="Your username" autocomplete="username" required>
+                <label for="login-password">Password</label>
+                <input id="login-password" type="password" name="password" placeholder="Your password" autocomplete="current-password" required>
+                <button type="submit" class="form-submit">Log in <span aria-hidden="true">→</span></button>
+            </form>
+            <p class="auth-switch">New to the table? <a href="{% url 'register' %}">Create an account</a></p>
+        </section>
+        <a class="auth-back" href="{% url 'recipe_list' %}">← &nbsp; Back to all recipes</a>
+    </main>
+    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <script src="{% static 'recipes/theme.js' %}" defer></script>
+</body>
+</html>
