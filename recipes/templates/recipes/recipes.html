@@ -1,21 +1,64 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
+    <meta name="theme-color" content="#f7f5ef">
+    <script>try { document.documentElement.dataset.theme = localStorage.getItem('recipe-theme') || 'light'; } catch (error) { document.documentElement.dataset.theme = 'light'; }</script>
+    <title>Recipes · The Good Table</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
 </head>
 <body>
-    {% for recipe in recipes %}
-     {% if recipe.image %}
-      <img src="{{ recipe.image.url }}" style="width:100%; height:200px; object-fit:cover;">
-    {% else %}
-      <div style="height:200px; background:#eee;">No image</div>
-    {% endif %}
-    <h3>{{recipe.title}}</h3>
-    <p>{{recipe.category}}</p>
-    <p>{{recipe.cooking_time}} mins</p>
-    <p>{{recipes.description}}</p>
-    {% endfor %}
+    <header class="site-header">
+        <a class="wordmark" href="{% url 'recipe_list' %}"><span class="wordmark-icon">✳</span> the good table</a>
+        <div class="header-actions"><span class="header-note">A little inspiration for what’s cooking</span><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
+    </header>
+
+    <main>
+        <section class="intro">
+            <p class="eyebrow">GATHER · COOK · ENJOY</p>
+            <h1>Recipes worth<br><em>sharing.</em></h1>
+            <p class="intro-copy">Good food brings us together. Find something lovely to make today.</p>
+            <div class="intro-rule"><span>✳</span></div>
+        </section>
+
+        <section class="recipe-section" aria-label="All recipes">
+            <div class="section-heading">
+                <div><p class="eyebrow">FROM OUR KITCHEN</p><h2>Find your next favourite</h2></div>
+                <span class="recipe-count">{{ recipes|length }} recipe{{ recipes|length|pluralize }}</span>
+            </div>
+
+            {% if recipes %}
+            <div class="recipe-grid">
+                {% for recipe in recipes %}
+                <a class="recipe-card" href="{% url 'recipe_view' recipe.id %}">
+                    <div class="card-image-wrap">
+                        {% if recipe.image %}
+                        <img class="card-image" src="{{ recipe.image.url }}" alt="{{ recipe.title }}" loading="lazy">
+                        {% else %}
+                        <div class="card-image card-placeholder" aria-label="No recipe photo"><span>✳</span></div>
+                        {% endif %}
+                        <span class="category-tag">{{ recipe.get_category_display }}</span>
+                    </div>
+                    <div class="card-content">
+                        <h3>{{ recipe.title }}</h3>
+                        <p class="card-description">{{ recipe.description|truncatewords:18 }}</p>
+                        <div class="card-meta"><span>◷ &nbsp;{{ recipe.cooking_time }} min</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state"><span>✳</span><h3>Your recipe collection starts here</h3><p>There are no recipes just yet. Check back soon for something delicious.</p></div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <script src="{% static 'recipes/theme.js' %}" defer></script>
 </body>
 </html>
