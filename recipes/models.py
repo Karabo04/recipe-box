@@ -5,8 +5,6 @@ class Recipe(models.Model):
         ('easy', 'Easy' ),
         ('medium', 'Medium' ),
         ('hard', 'Hard' ),
-         ('super hard', 'Super Hard' ),
-
     ]
     CATEGORY_CHOICE=[
         ('breakfast', 'Breakfast'),
@@ -34,10 +32,13 @@ class Recipe(models.Model):
 
 class Review(models.Model):
     recipe= models.ForeignKey(Recipe, on_delete= models.CASCADE)    
-    reviewer_name=models.CharField(max_length=30)
+    author=models.ForeignKey(User, on_delete=models.CASCADE)
     comment= models.TextField()
     rating= models.IntegerField()
     date_created= models.DateField(auto_now_add=True)
 
+    class Meta:
+        unique_together=['recipe', 'author']
+
     def __str__(self):
-        return self.reviewer_name
+        return f'{self.author.username}: {self.recipe.title}'

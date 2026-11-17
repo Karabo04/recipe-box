@@ -17,6 +17,7 @@
         <a class="wordmark" href="{% url 'recipe_list' %}"><span class="wordmark-icon">✳</span> the good table</a>
         <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button>
     </header>
+    {% if messages %}<div class="messages" role="status">{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
     <main class="auth-main">
         <section class="auth-card">
             <div class="auth-mark" aria-hidden="true">✳</div>
@@ -35,7 +36,10 @@
         </section>
         <a class="auth-back" href="{% url 'recipe_list' %}">← &nbsp; Back to all recipes</a>
     </main>
-    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <footer class="site-footer">
+        <span>© 2026 Recipe Box | Built by Karabo</span>
+        <nav aria-label="Footer"><a href="{% url 'recipe_list' %}">Home</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'recipe_list' %}">All Recipes</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'login' %}">Login</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'register' %}">Register</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'about' %}">About</a></nav>
+    </footer>
     <script src="{% static 'recipes/theme.js' %}" defer></script>
 </body>
 </html>

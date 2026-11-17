@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f5ef">
+    <script>try { document.documentElement.dataset.theme = localStorage.getItem('recipe-theme') || 'light'; } catch (error) { document.documentElement.dataset.theme = 'light'; }</script>
+    <title>About · Recipe Box</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="wordmark" href="{% url 'recipe_list' %}">Recipe Box</a>
+        <div class="header-actions">
+            <a class="back-link" href="{% url 'recipe_list' %}">All Recipes</a>
+            <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button>
+        </div>
+    </header>
+    <main class="create-main"><section class="create-card"><p class="eyebrow">ABOUT</p><h1>Recipe Box</h1><p>Recipe Box - A simple Django app to share recipes, add reviews and ratings. Built by Karabo from scratch to practice Django.</p></section></main>
+    <footer class="site-footer"><span>© 2026 Recipe Box | Built by Karabo</span><nav aria-label="Footer"><a href="{% url 'recipe_list' %}">Home</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'recipe_list' %}">All Recipes</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'login' %}">Login</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'register' %}">Register</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'about' %}">About</a></nav></footer>
+    <script src="{% static 'recipes/theme.js' %}" defer></script>
+</body>
+</html>

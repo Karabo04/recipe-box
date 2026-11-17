@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete recipe · Recipe Box</title>
+    <link rel="stylesheet" href="{% static 'recipes/style.css' %}">
+</head>
+<body>
+    <header class="site-header"><a class="wordmark" href="{% url 'recipe_list' %}">Recipe Box</a></header>
+    {% if messages %}<div class="messages" role="status">{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
+    <main class="create-main">
+        <section class="create-card">
+            <h1>Are you sure?</h1>
+            <p>Delete “{{ recipe.title }}”?</p>
+            <form method="POST">{% csrf_token %}<button class="form-submit" type="submit">Delete recipe</button> <a class="form-cancel" href="{% url 'recipe_view' recipe.pk %}">Cancel</a></form>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <span>© 2026 Recipe Box | Built by Karabo</span>
+        <nav aria-label="Footer">
+            <a href="{% url 'recipe_list' %}">Home</a>
+            <span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span>
+            <a href="{% url 'recipe_list' %}">All Recipes</a>
+            <span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span>
+            <a href="{% url 'login' %}">Login</a>
+            <span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span>
+            <a href="{% url 'register' %}">Register</a>
+            <span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span>
+            <a href="{% url 'about' %}">About</a>
+        </nav>
+    </footer>
+</body>
+</html>

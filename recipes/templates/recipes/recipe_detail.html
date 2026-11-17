@@ -18,6 +18,7 @@
         <div class="header-actions"><a class="back-link" href="{% url 'recipe_list' %}">← &nbsp; All recipes</a><button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
     </header>
 
+    {% if messages %}<div class="messages" role="status">{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
     <main class="detail-main">
         <article>
             <div class="detail-hero">
@@ -31,6 +32,9 @@
             <div class="detail-heading">
                 <p class="eyebrow">A RECIPE TO REMEMBER</p>
                 <h1>{{ recipe.title }}</h1>
+                <p class="rating-summary">{% if average_rating %}⭐ {{ average_rating|floatformat:1 }} ({{ reviews|length }} review{{ reviews|length|pluralize }}){% else %}No ratings yet{% endif %}</p>
+                {% if average_rating %}<p class="average-stars">{% for i in "12345" %}{% if forloop.counter <= average_rating %}⭐{% else %}☆{% endif %}{% endfor %}</p>{% endif %}
+                {% if request.user == recipe.author %}<p class="recipe-owner-actions"><a class="btn" href="{% url 'edit_recipe' recipe.pk %}">Edit recipe</a> <a class="btn" href="{% url 'delete_recipe' recipe.pk %}">Delete recipe</a></p>{% endif %}
                 <p class="detail-description">{{ recipe.description }}</p>
                 <div class="detail-meta">
                     <div><span class="meta-icon">◷</span><span class="meta-label">COOK TIME</span><strong>{{ recipe.cooking_time }} min</strong></div>
@@ -58,22 +62,29 @@
                 {% for i in "12345" %}
                     {% if forloop.counter <= review.rating %} ⭐ {% else %} ☆ {% endif %}
                 {% endfor %}
-                {{ review.rating }}/5 - {{ review.reviewer_name }}
+                {{ review.rating }}/5 - {{ review.author.username }}
                 </p>
                 <p>{{ review.comment }}</p>
             </div>
             {% empty %}
             <p>No reviews yet - be the first!</p>
             {% endfor %}
+            {%if request.user.is_authenticated%}
             <h3>Add Review</h3>
             <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <button>Submit Review</button>
             </form>
+            {%else%}
+            <p><a href="{%url 'login'%}">login to leave a review</a></p>
+            {% endif%}
         </article>
     </main>
-    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <footer class="site-footer">
+        <span>© 2026 Recipe Box | Built by Karabo</span>
+        <nav aria-label="Footer"><a href="{% url 'recipe_list' %}">Home</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'recipe_list' %}">All Recipes</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'login' %}">Login</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'register' %}">Register</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'about' %}">About</a></nav>
+    </footer>
     <script src="{% static 'recipes/theme.js' %}" defer></script>
 </body>
 </html>

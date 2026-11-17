@@ -19,6 +19,7 @@
             <span class="header-note">A little inspiration for what’s cooking</span>
             {% if request.user.is_authenticated %}
             <span>Hello, {{ request.user }}</span>
+            <a href="{% url 'my_recipes' %}" class="btn">My Recipes</a>
             <a href="{% url 'create_recipe' %}" class="btn">+ Add Recipe</a>
             <a href="{% url 'logout' %}" class="btn">Logout</a>
             {% else %}
@@ -30,6 +31,7 @@
             <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☾</span><span class="theme-label">Dark</span></button></div>
     </header>
 
+    {% if messages %}<div class="messages" role="status">{% for message in messages %}<p class="message {{ message.tags }}">{{ message }}</p>{% endfor %}</div>{% endif %}
     <main>
         <section class="intro">
             <p class="eyebrow">GATHER · COOK · ENJOY</p>
@@ -41,6 +43,9 @@
         <section class="search-section">
             <form method="GET" class="search-form">
                 <input type="text" name="q" placeholder="Search recipes... e.g. pap, chicken, dessert" value="{{ request.GET.q }}">
+                <select name="category"><option value="">All Categories</option>{% for value, label in categories %}<option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+                <select name="difficulty"><option value="">All Difficulties</option>{% for value, label in difficulties %}<option value="{{ value }}" {% if request.GET.difficulty == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+                <input type="number" name="max_time" min="1" placeholder="Max minutes" value="{{ request.GET.max_time }}">
                 <button type="submit">Search</button>
                 <a href="{% url 'recipe_list' %}" class="clear-btn">Clear</a>
             </form>
@@ -68,6 +73,7 @@
                         <h3>{{ recipe.title }}</h3>
                         <p class="card-description">{{ recipe.description|truncatewords:18 }}</p>
                         <div class="card-meta"><span>◷ &nbsp;{{ recipe.cooking_time }} min</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+                        <p class="rating-summary">{% if recipe.average_rating %}⭐ {{ recipe.average_rating|floatformat:1 }} ({{ recipe.review_count }} review{{ recipe.review_count|pluralize }}){% else %}No ratings yet{% endif %}</p>
                     </div>
                 </a>
                 {% endfor %}
@@ -78,7 +84,10 @@
         </section>
     </main>
 
-    <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>
+    <footer class="site-footer">
+        <span>© 2026 Recipe Box | Built by Karabo</span>
+        <nav aria-label="Footer"><a href="{% url 'recipe_list' %}">Home</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'recipe_list' %}">All Recipes</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'login' %}">Login</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'register' %}">Register</a><span class="footer-separator" aria-hidden="true">&nbsp;·&nbsp;</span><a href="{% url 'about' %}">About</a></nav>
+    </footer>
     <script src="{% static 'recipes/theme.js' %}" defer></script>
 </body>
 </html>
