@@ -51,6 +51,26 @@
                     <div class="recipe-text">{{ recipe.instructions|linebreaks }}</div>
                 </section>
             </div>
+            <h3>Reviews ({{ reviews|length }})</h3>
+            {% for review in reviews %}
+            <div>
+                <p>
+                {% for i in "12345" %}
+                    {% if forloop.counter <= review.rating %} ⭐ {% else %} ☆ {% endif %}
+                {% endfor %}
+                {{ review.rating }}/5 - {{ review.reviewer_name }}
+                </p>
+                <p>{{ review.comment }}</p>
+            </div>
+            {% empty %}
+            <p>No reviews yet - be the first!</p>
+            {% endfor %}
+            <h3>Add Review</h3>
+            <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Submit Review</button>
+            </form>
         </article>
     </main>
     <footer class="site-footer"><span>Made for moments around the table</span><span>✳</span></footer>

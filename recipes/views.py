@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users, admin_only
 from django.contrib.auth.models import User
 from .models import *
-from .forms import RecipeForm
+from .forms import RecipeForm, ReviewForm
 
 def registerPage(request):
     if request.method == 'POST':
@@ -53,11 +53,27 @@ def recipe_list(request):
 
 def recipe_detail(request, pk):
     recipe= get_object_or_404(Recipe, id=pk)
+    reviews= recipe.review_set.all()
 
-    return render(request, 'recipes/recipe_detail.html', {'recipe': recipe })
+    if request.method == 'POST':
+        form=ReviewForm(request.POST)
+        if form.is_valid():
+           review= form.save(commit=False)
+           review.recipe=recipe
+           review.save()
+           return redirect('recipe_view', pk=pk)
+    else:
 
+        form=ReviewForm() 
+    context={
+        'recipe': recipe,
+        'reviews':reviews,
+        'form': form
+    }    
+    return render(request, 'recipes/recipe_detail.html', context)
 
-login_required(login_url='login')
+@login_required(login_url='login')
+@admin_only
 def create_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
@@ -70,3 +86,7 @@ def create_recipe(request):
         form = RecipeForm()
     return render(request, 'recipes/create_recipe.html', {'form': form})
 
+
+
+
+   
